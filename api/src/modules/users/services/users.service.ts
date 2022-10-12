@@ -8,11 +8,18 @@ import { User, UserDocument } from '../schema';
 export class UsersService {
   constructor(
     @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>,
+    private userModel: Model<UserDocument>,
   ) {}
 
   async create(dto: UserCreateDto): Promise<UserDocument> {
     const user = new this.userModel(dto);
+    console.log(dto);
+    console.log(dto.username);
     return user.save();
+  }
+
+  async findAll(): Promise<UserDocument[]> {
+    const users = this.userModel.find();
+    return users;
   }
 }

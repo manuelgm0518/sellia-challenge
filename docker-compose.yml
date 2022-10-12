@@ -25,6 +25,6 @@ services:
     environment:
       MONGO_INITDB_DATABASE: chatroomDb
     ports:
-      - "3307:3306"
+      - 3307:3306
     volumes:
       - ./docker/data/db:/var/lib/mongodb
