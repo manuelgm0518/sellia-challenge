@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  client:
+    build: .
+    volumes:
+      - ./client:/app
+    ports:
+      - 3031:3000
+    depends_on:
+      - api
+
+  api:
+    build: .
+    volumes:
+      - ./api:/app
+    ports:
+      - 3003:3000
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: chatroomDb
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./docker/data/db:/var/lib/mongodb
