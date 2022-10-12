@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { Document } from 'mongoose';
 import { IsString } from 'class-validator';
+import { IsValidPassword } from 'src/shared/decorators';
 
 @Schema({ timestamps: true })
 export class User {
@@ -10,6 +11,10 @@ export class User {
   @IsString()
   @Prop({ type: String, unique: true, required: true, trim: true, lowercase: true })
   username: string;
+
+  @IsValidPassword()
+  @Prop({ hide: true })
+  password: string;
 
   // @ApiProperty({ description: "Date and time of the User's last connection" })
   // @Type(() => Date)
