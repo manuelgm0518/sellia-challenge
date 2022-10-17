@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import { Document } from 'mongoose';
 import { IsString } from 'class-validator';
 import { IsValidPassword } from 'src/shared/decorators';

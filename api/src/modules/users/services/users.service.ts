@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { UserSignupDto } from '../dto';
 import { AuthTokenResponse, DecodedToken } from '../interfaces';
 import { User, UserDocument } from '../schema';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(
@@ -14,16 +14,22 @@ export class UsersService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async findById(id: string): Promise<UserDocument> {
+    const user = this.userModel.findById(id);
+    return user;
+  }
+
   async findAll(): Promise<UserDocument[]> {
     const users = this.userModel.find();
     return users;
   }
 
   // Authentication
-  async validateUser(username: string, password: string): Promise<UserDocument> {
+  async validateUserByCredentials(username: string, password: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ username });
     if (!user) throw new NotFoundException('User not found');
-    if (user && user.password !== password) throw new UnauthorizedException('Invalid credentials');
+    const isPasswordMatching = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatching) throw new UnauthorizedException('Invalid credentials');
     return user;
   }
 
@@ -42,10 +48,12 @@ export class UsersService {
   }
 
   async signUp(dto: UserSignupDto): Promise<AuthTokenResponse> {
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
     const user = await this.userModel.create({
       username: dto.username,
-      password: dto.password,
+      password: hashedPassword,
     });
+    delete user.password;
     const payload: DecodedToken = { userId: user.id };
     return {
       user,
