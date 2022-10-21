@@ -1,21 +1,20 @@
 <template>
-  <div :class="isSelected ? 'bg-white' : ''">
-    <h1>{{ chatroom.name }}</h1>
-    <h2>{{ isSelected }}</h2>
+  <div :class="isSelected ? 'bg-secondary' : ''">
+    <h4>{{ chatroom.name }}</h4>
+    <p>{{ isSelected }}</p>
     <button @click="isSelected = !isSelected">asies</button>
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    chatroom: Chatroom,
-  },
-};
-</script>
-
-<script setup>
+<script setup lang="ts">
 import { Chatroom } from "~~/models/chatroom";
 
-const isSelected = new useState("isSelected", () => false);
+const isSelected = ref(false);
+
+const props = defineProps<{
+  chatroom: Chatroom;
+}>();
+const emit = defineEmits<{
+  (e: "select", chatroom: Chatroom): void;
+}>();
 </script>
