@@ -1,10 +1,13 @@
-import { Message } from "./message";
-
-export class Chatroom {
+export class User {
   id: string;
-  messages: Message[] = [];
-  constructor(public name: string, public participants: number, public createdAt?: Date) {
+
+  constructor(public username: string, public active: boolean, public color?: string) {
     this.id = this.generateId();
+  }
+
+  get initials(): string {
+    const upper = this.username.toUpperCase();
+    return upper[0] + upper[1];
   }
 
   private generateId(): string {
