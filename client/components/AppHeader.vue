@@ -3,6 +3,17 @@
   <LogOutDialog v-model:show="showLogOut" />
 
   <div class="h-16 bg-primary flex items-center p-5">
+    <div class="flex-none block md:hidden">
+      <button
+        class="btn btn-square text-white btn-ghost text-2xl swap swap-rotate"
+        :class="showChatrooms ? 'swap-active' : ''"
+        @click="showChatrooms = !showChatrooms"
+      >
+        <i class="uil uil-bars swap-off"></i>
+        <i class="uil uil-times swap-on"></i>
+      </button>
+    </div>
+
     <div class="text-2xl font-medium text-primary-content">
       <h2><i class="uil uil-whatsapp mr-2"></i>WhatsApp 2</h2>
     </div>
@@ -30,4 +41,5 @@ const authentication = useAuthenticationStore();
 
 const showAuth = ref(false);
 const showLogOut = ref(false);
+const showChatrooms = useState("showChatrooms", () => false);
 </script>
