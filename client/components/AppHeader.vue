@@ -1,5 +1,6 @@
 <template>
-  <LogInForm v-model:show="showLogIn" />
+  <AuthenticationDialog v-model:show="showAuth" />
+  <LogOutDialog v-model:show="showLogOut" />
 
   <div class="h-16 bg-primary flex items-center p-5">
     <div class="text-2xl font-medium text-primary-content">
@@ -13,9 +14,12 @@
       <i class="swap-on uil uil-moon"></i>
       <i class="swap-off uil uil-sun"></i>
     </button>
-    <button class="btn gap-2 btn-active btn-primary" @click="showLogIn = !showLogIn">
+    <button
+      class="btn gap-2 btn-active btn-primary"
+      @click="authentication.loggedIn ? (showLogOut = true) : (showAuth = true)"
+    >
       <i class="uil text-lg" :class="authentication.loggedIn ? 'uil-signout' : 'uil-signin'"></i>
-      {{ authentication.loggedIn ? authentication.user.username : "Ingresar" }}
+      {{ authentication.loggedIn ? authentication.user?.username : "Ingresar" }}
     </button>
   </div>
 </template>
@@ -24,5 +28,6 @@
 const appTheme = useAppThemeStore();
 const authentication = useAuthenticationStore();
 
-const showLogIn = ref(false);
+const showAuth = ref(false);
+const showLogOut = ref(false);
 </script>
