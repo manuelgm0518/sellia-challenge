@@ -1,6 +1,10 @@
 <template>
   <div class="modal modal-bottom sm:modal-middle" :class="show ? 'modal-open' : ''">
-    <div class="modal-box gap-3 grid">
+    <div class="modal-box grid">
+      <div class="flex-none" v-if="loading">
+        <progress class="progress w-full"></progress>
+      </div>
+
       <div class="flex">
         <span class="text-4xl font-semibold mb-4 flex-1"> {{ signUpMode ? "Registrarse" : "Iniciar sesión" }} </span>
         <button class="btn btn-circle btn-ghost flex-none" @click="close()">
@@ -34,7 +38,7 @@
           :class="{
             'order-last btn-ghost': signUpMode,
             'order-first': !signUpMode,
-            'btn-disabled': !validated && !signUpMode,
+            'btn-disabled': (!validated && !signUpMode) || loading,
           }"
           @click="signUpMode ? (signUpMode = false) : logIn()"
         >
@@ -47,7 +51,7 @@
           :class="{
             'order-last btn-ghost': !signUpMode,
             'order-first': signUpMode,
-            'btn-disabled': !validated && signUpMode,
+            'btn-disabled': (!validated && signUpMode) || loading,
           }"
           @click="!signUpMode ? (signUpMode = true) : signUp()"
         >
@@ -63,6 +67,7 @@
 const authentication = useAuthenticationStore();
 const signUpMode = ref(false);
 const showPassword = ref(false);
+const loading = ref(false);
 
 const props = defineProps<{
   show: boolean;
@@ -79,12 +84,16 @@ const passwordText = ref("");
 const validated = computed(() => {
   return usernameText.value.length > 0 && passwordText.value.length > 0;
 });
-function logIn() {
-  authentication.logIn(usernameText.value, passwordText.value);
+const logIn = async () => {
+  loading.value = true;
+  await authentication.logIn(usernameText.value, passwordText.value);
+  loading.value = false;
   close();
-}
-function signUp() {
-  authentication.signUp(usernameText.value, passwordText.value);
+};
+const signUp = async () => {
+  loading.value = true;
+  await authentication.signUp(usernameText.value, passwordText.value);
+  loading.value = false;
   close();
-}
+};
 </script>
