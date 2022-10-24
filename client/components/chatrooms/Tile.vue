@@ -18,6 +18,6 @@ const props = defineProps<{
 }>();
 
 const isSelected = computed(() => {
-  return route.params.id == props.chatroom.id;
+  return route.params.id === props.chatroom.id;
 });
 </script>

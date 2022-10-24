@@ -7,7 +7,7 @@
       @input="autoGrow"
     ></textarea>
     <div class="flex-none ml-3">
-      <button class="btn btn-circle btn-primary" @click="send">
+      <button class="btn btn-circle btn-primary" :class="!hasMessage ? 'btn-disabled' : ''" @click="send">
         <i class="uil uil-message text-xl"></i>
       </button>
     </div>
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 const inputField = ref<HTMLInputElement>(null);
+const hasMessage = ref(false);
 
 const emit = defineEmits<{
   (e: "send", text: string): void;
@@ -27,6 +28,7 @@ function send() {
   autoGrow();
 }
 function autoGrow() {
+  hasMessage.value = inputField.value.value.length > 0;
   if (inputField.value.scrollHeight > 60) {
     inputField.value.style.height = "5px";
     inputField.value.style.height = inputField.value.scrollHeight + 5 + "px";

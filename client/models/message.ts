@@ -3,7 +3,7 @@ import { User } from "./user";
 export class Message {
   id: string;
   constructor(public author: User, public content: string, public date: Date) {
-    this.id = this.generateId();
+    this.id = generateId();
   }
 
   get formattedDate(): string {
@@ -19,12 +19,12 @@ export class Message {
     }
     return this.date.toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short", hour12: true });
   }
+}
 
-  private generateId(): string {
-    var result = "";
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 16; i++) result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    return result;
-  }
+function generateId(): string {
+  var result = "";
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < 16; i++) result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  return result;
 }

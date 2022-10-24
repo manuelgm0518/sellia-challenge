@@ -18,10 +18,8 @@ const authentication = useAuthenticationStore();
 const props = defineProps<{
   message: Message;
 }>();
-
 const isMine = computed(() => {
-  return Math.random() < 0.5;
-  //return authentication.user?.id == props.message.author.id;
+  return authentication.user?.id === props.message.author.id;
 });
 </script>
 
