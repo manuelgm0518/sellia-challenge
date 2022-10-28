@@ -1,3 +1,4 @@
+import { AuthResponse } from "~~/dto/auth-response";
 import { User } from "~~/models/user";
 
 export const useAuthenticationStore = defineStore("AuthenticationStore", () => {
@@ -7,25 +8,19 @@ export const useAuthenticationStore = defineStore("AuthenticationStore", () => {
   const loggedIn = computed(() => user.value != null);
 
   const logIn = async (username: string, password: string) => {
-    const { data: user } = await useFetch(config.public.apiBase + "login", {
-      body: {
-        username,
-        password,
-      },
+    const { data } = await $fetch<AuthResponse>(config.public.apiBase + "users/login", {
+      method: "POST",
+      body: { username, password },
     });
-    console.log(user);
-    //user.value = new User(datausername, false);
+    user.value = data.user;
   };
 
   const signUp = async (username: string, password: string) => {
-    const { data: user } = await useFetch(config.public.apiBase + "login", {
-      body: {
-        username,
-        password,
-        confirmPassword: password,
-      },
+    const { data } = await $fetch<AuthResponse>(config.public.apiBase + "users/signup", {
+      method: "POST",
+      body: { username, password, confirmPassword: password },
     });
-    console.log(user);
+    user.value = data.user;
   };
 
   function logOut() {
