@@ -8,17 +8,30 @@ import { DecodedToken } from 'src/modules/users/interfaces';
 import { UserDocument } from 'src/modules/users/schema';
 import { UsersService } from 'src/modules/users/services';
 import { MessageSendDto } from '../dto';
-import { Message, MessageDocument } from '../schema';
+import { ChatroomCreateDto } from '../dto/chatroom-create.dto';
+import { Chatroom, ChatroomDocument, Message, MessageDocument } from '../schema';
 
 @Injectable()
 export class ChatroomsService {
   constructor(
+    @InjectModel(Chatroom.name)
+    private readonly chatroomModel: Model<Chatroom>,
     @InjectModel(Message.name)
     private readonly messageModel: Model<Message>,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
+
+  async create(dto: ChatroomCreateDto): Promise<ChatroomDocument> {
+    const item = await this.chatroomModel.create(dto);
+    return item;
+  }
+
+  async findAll(): Promise<ChatroomDocument[]> {
+    const items = await this.chatroomModel.find().sort({ createdAt: 'descending' });
+    return items;
+  }
 
   async getUserFromSocket(socket: Socket): Promise<UserDocument> {
     try {
@@ -46,7 +59,7 @@ export class ChatroomsService {
     return newMessage;
   }
 
-  async findAll(): Promise<MessageDocument[]> {
+  async findAllMessages(): Promise<MessageDocument[]> {
     const messages = await this.messageModel.find();
     return messages;
   }

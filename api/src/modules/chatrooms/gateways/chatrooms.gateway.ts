@@ -32,7 +32,7 @@ export class ChatroomsGateway implements OnGatewayConnection {
   @SubscribeMessage('request_all_messages')
   async requestAllMessages(@ConnectedSocket() socket: Socket) {
     await this.chatroomsService.getUserFromSocket(socket);
-    const messages = await this.chatroomsService.findAll();
+    const messages = await this.chatroomsService.findAllMessages();
     socket.emit('send_all_messages', messages);
   }
 }

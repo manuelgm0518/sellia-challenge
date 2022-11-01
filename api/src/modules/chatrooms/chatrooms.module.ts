@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../users/users.module';
+import { ChatroomsController } from './controllers';
 import { ChatroomsGateway } from './gateways';
 import { Chatroom, ChatroomSchema, Message, MessageSchema } from './schema';
 import { ChatroomsService } from './services';
@@ -13,6 +14,7 @@ import { ChatroomsService } from './services';
       { name: Message.name, schema: MessageSchema },
     ]),
   ],
+  controllers: [ChatroomsController],
   providers: [ChatroomsService, ChatroomsGateway],
   exports: [MongooseModule, ChatroomsService, ChatroomsGateway],
 })

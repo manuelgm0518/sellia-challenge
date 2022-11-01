@@ -1,6 +1,6 @@
 <template>
   <div class="modal modal-bottom sm:modal-middle" :class="show ? 'modal-open' : ''">
-    <div class="modal-box grid">
+    <div class="modal-box grid gap-3">
       <div class="flex-none" v-if="loading">
         <progress class="progress w-full"></progress>
       </div>
