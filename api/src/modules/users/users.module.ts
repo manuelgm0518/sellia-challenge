@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { UsersController } from './controllers';
+import { UsersGateway } from './gateways';
 import { User, UserSchema } from './schema';
 import { UsersService } from './services';
 import { JwtStrategy, LocalStrategy } from './strategies';
@@ -21,7 +22,7 @@ import { JwtStrategy, LocalStrategy } from './strategies';
     }),
   ],
   controllers: [UsersController],
-  providers: [UsersService, LocalStrategy, JwtStrategy],
-  exports: [MongooseModule, UsersService, PassportModule, JwtModule, LocalStrategy, JwtStrategy],
+  providers: [UsersService, LocalStrategy, JwtStrategy, UsersGateway],
+  exports: [MongooseModule, UsersService, PassportModule, JwtModule, LocalStrategy, JwtStrategy, UsersGateway],
 })
 export class UsersModule {}

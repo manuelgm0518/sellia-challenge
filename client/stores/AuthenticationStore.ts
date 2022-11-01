@@ -6,7 +6,7 @@ export const useAuthenticationStore = defineStore("AuthenticationStore", () => {
   const user = ref<InstanceType<typeof User>>();
   const authToken = ref<string>(null);
 
-  const loggedIn = computed(() => user.value != null);
+  const loggedIn = computed(() => user.value != null && authToken.value != null);
 
   const logIn = async (username: string, password: string) => {
     try {
@@ -39,5 +39,5 @@ export const useAuthenticationStore = defineStore("AuthenticationStore", () => {
     user.value = null;
   }
 
-  return { user, loggedIn, logIn, signUp, logOut };
+  return { user, authToken, loggedIn, logIn, signUp, logOut };
 });

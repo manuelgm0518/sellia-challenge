@@ -1,9 +1,11 @@
 <template>
-  <div class="avatar placeholder" :class="user.active ? 'online' : 'offline'">
-    <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
-      <span class="text-xl">{{ user.initials }}</span>
+  <span :title="`${user.username}: ${user.connected ? 'online' : 'offline'}`">
+    <div class="avatar placeholder" :class="user.connected ? 'online' : 'offline'">
+      <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
+        <span class="text-xl">{{ User.initials(user.username) }}</span>
+      </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <script setup lang="ts">

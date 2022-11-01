@@ -32,8 +32,8 @@ export class UsersController {
 
   @Get()
   @Authenticated()
-  async findAll(): Promise<UserDocument[]> {
+  async findAll(): Promise<HttpResponse<UserDocument[]>> {
     const data = await this.usersService.findAll();
-    return data;
+    return { data };
   }
 }

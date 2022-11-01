@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
 @Schema({
+  id: true,
   timestamps: true,
 })
 export class Chatroom {

@@ -4,7 +4,7 @@ import { UsersModule } from '../users/users.module';
 import { ChatroomsController } from './controllers';
 import { ChatroomsGateway } from './gateways';
 import { Chatroom, ChatroomSchema, Message, MessageSchema } from './schema';
-import { ChatroomsService } from './services';
+import { ChatroomsService, MessagesService } from './services';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ChatroomsService } from './services';
     ]),
   ],
   controllers: [ChatroomsController],
-  providers: [ChatroomsService, ChatroomsGateway],
+  providers: [ChatroomsService, MessagesService, ChatroomsGateway],
   exports: [MongooseModule, ChatroomsService, ChatroomsGateway],
 })
 export class ChatroomsModule {}

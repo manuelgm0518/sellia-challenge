@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 import { IsString } from 'class-validator';
 import { IsValidPassword } from 'src/shared/decorators';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, id: true })
 export class User {
   @ApiProperty({ description: "User's access unique identifier" })
   @IsString()
@@ -14,6 +14,10 @@ export class User {
   @IsValidPassword()
   @Prop({ hide: true })
   password: string;
+
+  @ApiProperty({ description: 'Indicates whether User is online' })
+  @Prop({ default: false })
+  connected: boolean;
 
   // @ApiProperty({ description: "Date and time of the User's last connection" })
   // @Type(() => Date)
